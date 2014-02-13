@@ -2,6 +2,11 @@
 
 Logger functionality for Alephant
 
+[![Build
+Status](https://travis-ci.org/BBC-News/alephant-logger.png)](https://travis-ci.org/BBC-News/alephant-logger)
+
+[![Gem Version](https://badge.fury.io/rb/alephant-logger.png)](http://badge.fury.io/rb/alephant-logger)
+
 ## Installation
 
 Add this line to your application's Gemfile:
