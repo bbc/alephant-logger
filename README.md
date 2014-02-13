@@ -1,6 +1,6 @@
 # Alephant::Logger
 
-TODO: Write a gem description
+Logger functionality for Alephant
 
 ## Installation
 
@@ -10,15 +10,37 @@ Add this line to your application's Gemfile:
 
 And then execute:
 
-    $ bundle
+$ bundle
 
 Or install it yourself as:
 
-    $ gem install alephant-logger
+$ gem install alephant-logger
 
 ## Usage
 
-TODO: Write usage instructions here
+```rb
+require 'alephant/logger'
+
+# Using the standard logger
+class IncludesLogger
+  include Alephant::Logger
+
+  def calls_logger
+    logger.warn "MUCH WARN. WOW."
+  end
+end
+
+# Sets a logger
+class SetsLogger
+  include Alephant::Logger
+
+  def calls_logger
+    Alephant::Logger.set_logger(CustomLogger.new)
+    logger.warn "SUCH CUSTOM. MUCH LOG."
+  end
+end
+
+```
 
 ## Contributing
 
