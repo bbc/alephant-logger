@@ -29,6 +29,10 @@ module Alephant
         end
       end
 
+      def respond_to?
+        cloudwatch.respond_to? if cloudwatch
+      end
+
       private
 
       attr_reader :logger, :cloudwatch, :namespace
