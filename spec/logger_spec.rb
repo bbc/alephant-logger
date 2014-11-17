@@ -4,9 +4,9 @@ describe Alephant::Logger do
   describe ".get_logger" do
 
     context "no logger set" do
-      it "returns standard Logger" do
-        expect(subject.get_logger).to be_a Logger
-      end
+      specify {
+        expect(subject.get_logger.logger).to be_a Logger
+      }
     end
 
     context "subject.set_logger(:foo)" do
@@ -20,7 +20,7 @@ describe Alephant::Logger do
   describe ".set_logger(:foo)" do
     it "sets foo as @@logger" do
       subject.set_logger(:bar)
-      expect(subject.class_variable_get(:@@logger)).to eq(:bar)
+      expect(subject.class_variable_get(:@@logger).logger).to eq :bar
     end
   end
 
@@ -37,7 +37,7 @@ describe Alephant::Logger do
     context "called via '#logger'" do
       it "returns the value of @@logger" do
         subject.class_variable_set(:@@logger, :baz)
-        expect(IncludesLog.new.calls_logger).to eq(:baz)
+        expect(IncludesLog.new.calls_logger).to eq :baz
       end
     end
 
