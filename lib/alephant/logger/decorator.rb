@@ -3,8 +3,6 @@ require 'aws-sdk'
 module Alephant
   module Logger
     class Decorator
-      extend Forwardable
-
       def initialize(logger, namespace)
         @logger = logger
         @namespace = namespace
