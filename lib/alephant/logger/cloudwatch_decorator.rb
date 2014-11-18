@@ -2,7 +2,7 @@ require 'aws-sdk'
 
 module Alephant
   module Logger
-    class Decorator
+    class CloudWatchDecorator
       def initialize(logger, namespace)
         @logger = logger
         @namespace = namespace
@@ -13,8 +13,8 @@ module Alephant
         put_metric(
           hash.fetch(:name),
           hash.fetch(:value),
-	  hash.fetch(:unit) { "None" },
-	  parse_dimensions(hash.fetch :dimensions)
+          hash.fetch(:unit) { "None" },
+          parse_dimensions(hash.fetch :dimensions)
         )
       end
 

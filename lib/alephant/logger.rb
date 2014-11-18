@@ -1,5 +1,5 @@
 require 'alephant/logger/version'
-require 'alephant/logger/decorator'
+require 'alephant/logger/cloudwatch_decorator'
 require 'logger'
 
 module Alephant
