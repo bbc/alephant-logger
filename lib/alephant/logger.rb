@@ -10,8 +10,8 @@ module Alephant
       ::Alephant::Logger.get_logger
     end
 
-    def self.get_logger(namespace=nil)
-      @@logger ||= Decorator.new(::Logger.new(STDOUT), namespace)
+    def self.get_logger
+      @@logger ||= ::Logger.new(STDOUT)
     end
 
     def self.set_logger(value)
