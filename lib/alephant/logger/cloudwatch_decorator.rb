@@ -24,7 +24,7 @@ module Alephant
       end
 
       def respond_to?
-        cloudwatch.respond_to? if cloudwatch
+        cloudwatch.respond_to?
       end
 
       private
@@ -35,12 +35,12 @@ module Alephant
         cloudwatch.put_metric_data(
           :namespace => namespace,
           :metric_data => [{
-              :metric_name => name,
-              :value       => value,
-              :unit        => unit,
-              :dimensions  => dimensions
-            }]
-          )
+            :metric_name => name,
+            :value       => value,
+            :unit        => unit,
+            :dimensions  => dimensions
+          }]
+        )
       end
 
       def parse_dimensions(dimensions)
