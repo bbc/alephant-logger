@@ -16,7 +16,7 @@ module Alephant
           hash.fetch(:name),
           hash.fetch(:value),
           hash.fetch(:unit) { "None" },
-          parse_dimensions(hash.fetch :dimensions)
+          parse_dimensions(hash.fetch(:dimensions) { {} })
         )
       end
 
@@ -39,13 +39,12 @@ module Alephant
           :metric_data => [{
             :metric_name => name,
             :value       => value,
-            :unit        => unit,
-            :dimensions  => dimensions
+            :unit        => unit
           }]
         )
       end
 
-      def parse_dimensions(dimensions)
+      def parse_dimensions(dimensions={})
         dimensions.map do |name, value|
           { :name => name, :value => value }
         end
