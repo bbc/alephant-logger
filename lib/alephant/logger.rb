@@ -16,6 +16,18 @@ module Alephant
     def self.set_logger(value)
       @@logger = value
     end
+
+    def method_missing(name, *args, &block)
+      message = args[0]
+      logger.send(name, message)
+    end
+
+    def respond_to?
+      cloudwatch.respond_to?
+    end
+
+    def metric
+    end
   end
 end
 
