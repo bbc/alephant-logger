@@ -17,7 +17,7 @@ module Alephant
         logger.respond_to?
       end
 
-      def metric
+      def metric(*args)
       end
 
       private
