@@ -5,7 +5,7 @@ module Alephant
   module Logger
     class Logger
       def initialize(logger)
-        @logger
+        @logger = logger
       end
 
       def method_missing(name, *args, &block)
