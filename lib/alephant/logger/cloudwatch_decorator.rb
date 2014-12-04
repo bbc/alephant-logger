@@ -19,8 +19,7 @@ module Alephant
       end
 
       def method_missing(name, *args, &block)
-        message = args[0]
-        logger.send(name, message)
+        logger.send(name, *args)
       end
 
       def respond_to?
