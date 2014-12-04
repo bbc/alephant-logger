@@ -12,8 +12,8 @@ module Alephant
         logger.send(name, *args)
       end
 
-      def respond_to?
-        logger.respond_to?
+      def respond_to?(name)
+        logger.respond_to?(name)
       end
 
       private

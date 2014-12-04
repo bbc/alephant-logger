@@ -22,8 +22,8 @@ module Alephant
         logger.send(name, *args)
       end
 
-      def respond_to?
-        cloudwatch.respond_to?
+      def respond_to?(name)
+        cloudwatch.respond_to?(name)
       end
 
       private
