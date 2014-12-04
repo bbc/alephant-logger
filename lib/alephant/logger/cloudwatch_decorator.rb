@@ -23,7 +23,7 @@ module Alephant
       end
 
       def respond_to?(name)
-        cloudwatch.respond_to?(name)
+        logger.respond_to?(name)
       end
 
       private
