@@ -9,7 +9,7 @@ module Alephant
       @logger = logger
     end
 
-    def method_missing(name, *args, &block)
+    def method_missing(name, *args)
       logger.send(name, *args) if logger.respond_to? name
     end
 

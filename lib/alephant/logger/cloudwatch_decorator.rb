@@ -18,7 +18,7 @@ module Alephant
         )
       end
 
-      def method_missing(name, *args, &block)
+      def method_missing(name, *args)
         logger.send(name, *args)
       end
 
