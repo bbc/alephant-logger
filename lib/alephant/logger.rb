@@ -4,6 +4,8 @@ require 'logger'
 module Alephant
   module Logger
     class Logger
+      attr_reader :logger
+
       def initialize(logger)
         @logger = logger
       end
@@ -15,10 +17,6 @@ module Alephant
       def respond_to?(name)
         logger.respond_to?(name)
       end
-
-      private
-
-      attr_reader :logger
     end
 
     @@logger = nil
