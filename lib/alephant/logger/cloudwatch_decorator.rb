@@ -3,15 +3,13 @@ require 'aws-sdk'
 module Alephant
   module Logger
     class CloudWatchDecorator
-      def initialize(logger, namespace = nil)
+      def initialize(logger, namespace)
         @logger = logger
         @namespace = namespace
         @cloudwatch = AWS::CloudWatch.new
       end
 
       def metric(hash)
-        return if @namespace.nil?
-
         put_metric(
           hash.fetch(:name),
           hash.fetch(:value),
