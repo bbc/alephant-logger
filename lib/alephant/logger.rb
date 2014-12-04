@@ -14,7 +14,7 @@ module Alephant
     end
 
     def respond_to?(name)
-      logger.respond_to?(name)
+      logger.respond_to? name || super
     end
   end
 
