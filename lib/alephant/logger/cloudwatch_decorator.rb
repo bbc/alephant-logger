@@ -9,12 +9,17 @@ module Alephant
         @cloudwatch = AWS::CloudWatch.new
       end
 
-      def metric(hash)
-        put_metric(
-          hash.fetch(:name),
-          hash.fetch(:value),
-          hash.fetch(:unit) { "None" },
-          parse_dimensions(hash.fetch(:dimensions) { {} })
+      def metric(opts)
+        name, value, unit, dimensions = opts.values_at(:name, :value, :unit, :dimensions)
+
+        cloudwatch.put_metric_data(
+          :namespace => namespace,
+          :metric_data => [{
+            :metric_name => name,
+            :value       => determine(name, value),
+            :unit        => unit || "None",
+            :dimensions  => parse(dimensions || {})
+          }]
         )
       end
 
@@ -35,25 +40,48 @@ module Alephant
 
       attr_reader :logger, :cloudwatch, :namespace
 
-      def put_metric(name, value, unit, dimensions)
-        cloudwatch.put_metric_data(
-          :namespace => namespace,
-          :metric_data => [{
-            :metric_name => name,
-            :value       => value,
-            :unit        => unit,
-            :dimensions  => dimensions
-          }]
-        )
-      end
-
-      def parse_dimensions(dimensions = {})
+      def parse(dimensions)
         dimensions.map do |name, value|
           {
             :name  => name,
             :value => value
           }
         end
+      end
+
+      def determine(name, value)
+        return value unless value.nil?
+
+        increment_metric_value name
+      end
+
+      def increment_metric_value(name)
+        metric = filter_metric name
+        stats  = sort metric
+        stats.nil? ? 0 : stats.last[:sum] += 1
+      end
+
+      def filter_metric(name)
+        filter_namespace.filter("metric_name", name)
+      end
+
+      def filter_namespace
+        cloudwatch.metrics.filter("namespace", namespace)
+      end
+
+      def sort(metric)
+        stats = stats_for(metric)
+        stats.sort do |a, b|
+          a[:timestamp] <=> b[:timestamp]
+        end unless stats.datapoints.size == 0
+      end
+
+      def stats_for(metric)
+        metric.first.statistics({
+          :statistics => ["Sum"],
+          :start_time => Time.now - 3600, # one hour ago
+          :end_time => Time.now
+        })
       end
     end
   end
