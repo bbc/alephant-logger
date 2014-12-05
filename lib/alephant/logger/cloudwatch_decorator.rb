@@ -54,9 +54,12 @@ module Alephant
       end
 
       def increment_metric_value(name)
-        metric = filter_metric name
-        stats  = sort metric
+        stats = get_stats name
         stats.nil? ? 0 : stats.last[:sum] += 1
+      end
+
+      def get_stats(name)
+        sort(filter_metric name)
       end
 
       def filter_metric(name)
