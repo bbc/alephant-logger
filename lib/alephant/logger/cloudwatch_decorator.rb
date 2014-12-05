@@ -50,9 +50,7 @@ module Alephant
       end
 
       def determine(name, value)
-        return value unless value.nil?
-
-        increment_metric_value name
+        value ? value : increment_metric_value(name)
       end
 
       def increment_metric_value(name)
