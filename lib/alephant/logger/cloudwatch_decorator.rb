@@ -3,6 +3,8 @@ require "aws-sdk"
 module Alephant
   module Logger
     class CloudWatchDecorator
+      ONE_HOUR = 3600
+
       def initialize(logger, namespace)
         @logger = logger
         @namespace = namespace
@@ -55,11 +57,13 @@ module Alephant
 
       def increment_metric_value(name)
         stats = get_stats name
-        stats.nil? ? 0 : stats.last[:sum] += 1
+        stats.datapoints.size == 0 ? 0 : stats.datapoints.last[:sum] += 1
       end
 
       def get_stats(name)
-        sort(filter_metric name)
+        stats_for(filter_metric name).tap do |stats|
+          sort stats.datapoints if stats.datapoints.size > 0
+        end
       end
 
       def filter_metric(name)
@@ -70,19 +74,16 @@ module Alephant
         cloudwatch.metrics.filter("namespace", namespace)
       end
 
-      def sort(metric)
-        stats = stats_for(metric)
-        stats.sort do |a, b|
-          a[:timestamp] <=> b[:timestamp]
-        end unless stats.datapoints.size == 0
-      end
-
       def stats_for(metric)
         metric.first.statistics({
           :statistics => ["Sum"],
-          :start_time => Time.now - 3600, # one hour ago
+          :start_time => Time.now - ONE_HOUR,
           :end_time => Time.now
         })
+      end
+
+      def sort(stats)
+        stats.sort! { |a, b| a[:timestamp] <=> b[:timestamp] }
       end
     end
   end
