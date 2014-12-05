@@ -22,7 +22,7 @@ module Alephant
     @@logger = nil
 
     def logger
-     ::Alephant::Logger.get_logger
+      ::Alephant::Logger.get_logger
     end
 
     def self.get_logger

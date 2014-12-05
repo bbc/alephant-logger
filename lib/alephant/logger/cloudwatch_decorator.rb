@@ -1,4 +1,4 @@
-require 'aws-sdk'
+require "aws-sdk"
 
 module Alephant
   module Logger
@@ -41,14 +41,18 @@ module Alephant
           :metric_data => [{
             :metric_name => name,
             :value       => value,
-            :unit        => unit
+            :unit        => unit,
+            :dimensions  => dimensions
           }]
         )
       end
 
-      def parse_dimensions(dimensions={})
+      def parse_dimensions(dimensions = {})
         dimensions.map do |name, value|
-          { :name => name, :value => value }
+          {
+            :name  => name,
+            :value => value
+          }
         end
       end
     end
