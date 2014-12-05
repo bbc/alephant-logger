@@ -18,6 +18,11 @@ module Alephant
         )
       end
 
+      # Ruby's Kernel implements a `warn` method
+      def warn(*args)
+        logger.warn(*args)
+      end
+
       def method_missing(name, *args)
         logger.send(name, *args)
       end
