@@ -44,7 +44,48 @@ class SetsLogger
     logger.warn "SUCH CUSTOM. MUCH LOG."
   end
 end
+```
 
+### AWS CloudWatch Metrics
+
+```ruby
+require "aws-sdk"
+require "alephant/logger"
+require "alephant/logger/cloudwatch_decorator"
+
+AWS.config(
+  :region            => "eu-west-1",
+  :access_key_id     => "ACCESS_KEY_ID",
+  :secret_access_key => "SECRET_ACCESS_KEY",
+  :session_token     => "SESSION_TOKEN"
+)
+
+LOGGER = Alephant::Logger::CloudWatchDecorator.new(
+  Logger.new("app.log"), "SomeCloudWatchMetricNameSpace"
+)
+
+Alephant::Logger.set_logger LOGGER
+
+class Foo
+  include Alephant::Logger
+
+  def initialize
+    logger.info "some info"
+    logger.debug "much debug"
+    logger.error "great error"
+    logger.warn "so warn"
+    logger.fatal "ooh fatal"
+    
+    # We set the value of the metric to 123
+    logger.metric({:name => "SomeMetricName", :unit => "Count", :value => 123})
+    
+    # Notice that no :value key is specified, meaning we'll increment the last seen value
+    # If this metric hasn't been set within the last hour then we'll reset the value back to zero
+    logger.metric({:name => "SomeMetricName", :unit => "Count"})
+  end
+end
+
+Foo.new
 ```
 
 ## Contributing
