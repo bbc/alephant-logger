@@ -14,15 +14,17 @@ module Alephant
       def metric(opts)
         name, value, unit, dimensions = opts.values_at(:name, :value, :unit, :dimensions)
 
-        cloudwatch.put_metric_data(
-          :namespace => namespace,
-          :metric_data => [{
-            :metric_name => name,
-            :value       => determine(name, value),
-            :unit        => unit || "None",
-            :dimensions  => parse(dimensions || {})
-          }]
-        )
+        Thread.new {
+          cloudwatch.put_metric_data(
+            :namespace => namespace,
+            :metric_data => [{
+              :metric_name => name,
+              :value       => determine(name, value),
+              :unit        => unit || "None",
+              :dimensions  => parse(dimensions || {})
+            }]
+          )
+        }
       end
 
       # Ruby's Kernel implements a `warn` method
