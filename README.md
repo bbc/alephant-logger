@@ -75,13 +75,9 @@ class Foo
     logger.error "great error"
     logger.warn "so warn"
     logger.fatal "ooh fatal"
-    
-    # We set the value of the metric to 123
-    logger.metric({:name => "SomeMetricName", :unit => "Count", :value => 123})
-    
-    # Notice that no :value key is specified, meaning we'll increment the last seen value
-    # If this metric hasn't been set within the last hour then we'll reset the value back to zero
-    logger.metric({:name => "SomeMetricName", :unit => "Count"})
+
+    # Without the CloudWatchDecorator the `metric` call is a no-op
+    logger.metric({:name => "SomeMetricName", :unit => "Count", :value => 1})
   end
 end
 
