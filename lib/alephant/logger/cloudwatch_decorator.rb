@@ -24,7 +24,7 @@ module Alephant
               :dimensions  => parse(dimensions || {})
             }]
           )
-        end.join
+        end
       end
 
       # Ruby's Kernel implements a `warn` method
