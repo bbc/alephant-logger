@@ -1,45 +1,41 @@
 require 'spec_helper'
 
 describe Alephant::Logger do
-  describe ".get_logger" do
-
-    context "no logger set" do
-      specify {
-        expect(subject.get_logger.logger).to be_a Logger
-      }
-    end
-
-    context "subject.set_logger(:foo)" do
-      it "returns @@logger" do
-        subject.class_variable_set(:@@logger, :foo)
-        expect(subject.get_logger).to eq(:foo)
-      end
+  describe ".create" do
+    specify do
+      expect(subject.create).to be_a Alephant::Logger::Logger
     end
   end
+end
 
-  describe ".set_logger(:foo)" do
-    it "sets foo as @@logger" do
-      subject.set_logger(:bar)
-      expect(subject.class_variable_get(:@@logger).logger).to eq :bar
-    end
-  end
+describe Alephant::Logger::Logger do
+  describe "#info" do
+    context "no logger drivers given" do
+      subject { Alephant::Logger::Logger.new [] }
 
-  context "when included in a class" do
+      specify do
+        expect_any_instance_of(::Logger).to receive(:info).with "msg"
 
-    class IncludesLog
-      include Alephant::Logger
-
-      def calls_logger
-        logger
+        subject.info "msg"
       end
     end
 
-    context "called via '#logger'" do
-      it "returns the value of @@logger" do
-        subject.class_variable_set(:@@logger, :baz)
-        expect(IncludesLog.new.calls_logger).to eq :baz
+    context "logger drivers given" do
+      subject { Alephant::Logger::Logger.new [driver] }
+
+      let(:driver) { double }
+
+      it "responding drivers receive method calls" do
+        expect(driver).to receive(:metric).with("foo")
+
+        subject.metric("foo")
+      end
+
+      it "::Logger is always used" do
+        expect_any_instance_of(::Logger).to receive(:info).with "foo"
+
+        subject.info "foo"
       end
     end
-
   end
 end
