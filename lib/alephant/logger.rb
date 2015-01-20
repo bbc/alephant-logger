@@ -30,7 +30,7 @@ module Alephant
     end
 
     def self.set_logger(value)
-      @@logger = Alephant::DelegatingLogger.new value if !@@logger.is_a?(DelegatingLogger)
+      @@logger ||= Alephant::DelegatingLogger.new value
     end
   end
 end
