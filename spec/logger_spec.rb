@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe Alephant::Logger do
+
+  after(:each) do
+    subject.class_variable_set(:@@logger, nil)
+  end
+
   describe ".get_logger" do
 
     context "no logger set" do

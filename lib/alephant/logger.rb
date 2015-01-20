@@ -29,8 +29,12 @@ module Alephant
       @@logger ||= Alephant::DelegatingLogger.new ::Logger.new(STDOUT)
     end
 
-    def self.set_logger(value)
-      @@logger = Alephant::DelegatingLogger.new value
+    def self.set_logger(logger)
+      if logger.is_a?(DelegatingLogger)
+        @@logger = logger
+      else
+        @@logger = Alephant::DelegatingLogger.new logger
+      end
     end
   end
 end
