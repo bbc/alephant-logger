@@ -2,35 +2,26 @@ require 'alephant/logger/version'
 require 'logger'
 
 module Alephant
-  class DelegatingLogger
-    attr_reader :logger
-
-    def initialize(logger)
-      @logger = logger
+  class Logger
+    def initialize(drivers)
+      @drivers = drivers
     end
 
     def method_missing(name, *args)
-      logger.send(name, *args) if logger.respond_to? name
+      drivers.each do |driver|
+        driver.send(name, *args) if driver.respond_to? name
+      end
     end
 
     def respond_to?(name)
-      logger.respond_to? name || super
-    end
-  end
-
-  module Logger
-    @@logger = nil
-
-    def logger
-      ::Alephant::Logger.get_logger
+      drivers.any? do |driver|
+        driver.respond_to?(name) || super
+      end
     end
 
-    def self.get_logger
-      @@logger ||= Alephant::DelegatingLogger.new ::Logger.new(STDOUT)
-    end
+    private
 
-    def self.set_logger(value)
-      @@logger = Alephant::DelegatingLogger.new value
-    end
+    attr_reader :driver
   end
 end
+
