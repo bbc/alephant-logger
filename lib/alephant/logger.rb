@@ -3,8 +3,8 @@ require 'logger'
 
 module Alephant
   class Logger
-    def initialize(drivers)
-      @drivers = drivers
+    def initialize(drivers = [])
+      @drivers = drivers << ::Logger.new(STDOUT)
     end
 
     def method_missing(name, *args)
