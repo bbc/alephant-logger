@@ -4,8 +4,6 @@ module Alephant
   module Logger
     module Driver
       class CloudWatch
-        ONE_HOUR = 3600
-
         def initialize(namespace)
           @namespace = namespace
           @cloudwatch = AWS::CloudWatch.new
