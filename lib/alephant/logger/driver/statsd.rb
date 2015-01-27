@@ -8,8 +8,8 @@ module Alephant
           connect defaults.merge(config)
         end
 
-        def increment(key)
-          server.increment key
+        def method_missing(name, *args)
+          server.send(name, *args) if server.respond_to? name
         end
 
         private
@@ -17,7 +17,7 @@ module Alephant
         attr_reader :server
 
         def connect(config)
-          @server ||= ::Statsd.new(config[:host], config[:port]).tap do |s|
+          @server = ::Statsd.new(config[:host], config[:port]).tap do |s|
             s.namespace = config[:namespace]
           end
         end
