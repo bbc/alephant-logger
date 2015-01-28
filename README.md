@@ -1,11 +1,9 @@
 # Alephant::Logger
 
-Logger functionality for Alephant
+Logger functionality for BBC News' [Alephant](https://github.com/BBC-News/alephant) framework.
 
 [![Build
-Status](https://travis-ci.org/BBC-News/alephant-logger.png)](https://travis-ci.org/BBC-News/alephant-logger)
-
-[![Gem Version](https://badge.fury.io/rb/alephant-logger.png)](http://badge.fury.io/rb/alephant-logger)
+Status](https://travis-ci.org/BBC-News/alephant-logger.png)](https://travis-ci.org/BBC-News/alephant-logger) [![Gem Version](https://badge.fury.io/rb/alephant-logger.png)](http://badge.fury.io/rb/alephant-logger)
 
 ## Installation
 
@@ -46,48 +44,16 @@ class SetsLogger
 end
 ```
 
-### AWS CloudWatch Metrics
+## Drivers
 
-```ruby
-require "aws-sdk"
-require "alephant/logger"
-require "alephant/logger/cloudwatch_decorator"
+You can consume an array of other gems to allow Alephant Logger to send custom metrics:
 
-AWS.config(
-  :region            => "eu-west-1",
-  :access_key_id     => "ACCESS_KEY_ID",
-  :secret_access_key => "SECRET_ACCESS_KEY",
-  :session_token     => "SESSION_TOKEN"
-)
-
-LOGGER = Alephant::Logger::CloudWatchDecorator.new(
-  Logger.new("app.log"), "SomeCloudWatchMetricNameSpace"
-)
-
-Alephant::Logger.set_logger LOGGER
-
-class Foo
-  include Alephant::Logger
-
-  def initialize
-    logger.info "some info"
-    logger.debug "much debug"
-    logger.error "great error"
-    logger.warn "so warn"
-    logger.fatal "ooh fatal"
-
-    # Without the CloudWatchDecorator the `metric` call is a no-op
-    logger.metric({:name => "SomeMetricName", :unit => "Count", :value => 1})
-  end
-end
-
-Foo.new
-```
+1. [Statsd](https://github.com/BBC-News/alephant-logger-statsd#alephantloggerstatsd)
 
 ## Contributing
 
-1. Fork it ( http://github.com/BBC-News/alephant-logger/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1. [Fork it!](http://github.com/BBC-News/alephant-logger/fork)
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Create new [Pull Request](https://github.com/BBC-News/alephant-logger/compare).
