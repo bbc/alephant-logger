@@ -9,39 +9,41 @@ Status](https://travis-ci.org/BBC-News/alephant-logger.png)](https://travis-ci.o
 
 Add this line to your application's Gemfile:
 
-    gem 'alephant-logger'
+```
+gem 'alephant-logger'
+```
 
 And then execute:
 
-    $ bundle
+```
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install alephant-logger
+```
+$ gem install alephant-logger
+```
 
 ## Usage
 
 ```rb
-require 'alephant/logger'
+require "alephant/logger"
+require "alephant/logger/statsd"
+require "alephant/logger/cloudwatch"
 
-# Using the standard logger
-class IncludesLogger
-  include Alephant::Logger
+config = {
+  :host      => "statsd.test.service.bbc.co.uk",
+  :port      => 6452,
+  :namespace => "test"
+}
 
-  def calls_logger
-    logger.warn "MUCH WARN. WOW."
-  end
-end
+statsd_driver     = Alephant::Logger::Statsd.new config
+cloudwatch_driver = Alephant::Logger::CloudWatch.new "my_namespace"
 
-# Sets a logger
-class SetsLogger
-  include Alephant::Logger
-
-  def calls_logger
-    Alephant::Logger.set_logger(CustomLogger.new)
-    logger.warn "SUCH CUSTOM. MUCH LOG."
-  end
-end
+logger = Alephant::Logger.create([statsd_driver, cloudwatch_driver])
+logger.increment "foo.bar"
+logger.metric(:name => "FooBar", :unit => "Count", :value => 1)
 ```
 
 ## Drivers
