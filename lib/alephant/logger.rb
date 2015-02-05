@@ -13,7 +13,5 @@ module Alephant
     def self.setup(*drivers)
       @@logger = Alephant::LoggerFactory.create(drivers.flatten)
     end
-
   end
 end
-

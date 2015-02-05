@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Alephant::Logger do
   describe ".setup" do

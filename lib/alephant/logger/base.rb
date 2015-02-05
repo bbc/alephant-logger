@@ -23,4 +23,3 @@ module Alephant
     end
   end
 end
-

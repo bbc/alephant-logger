@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Alephant::Logger::Base do
   describe "#info" do
