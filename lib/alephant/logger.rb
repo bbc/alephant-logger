@@ -4,7 +4,7 @@ require "logger"
 
 module Alephant
   module Logger
-    @@logger = Alephant::LoggerFactory.create
+    @@logger = Alephant::LoggerFactory.create []
 
     def logger
       @@logger
