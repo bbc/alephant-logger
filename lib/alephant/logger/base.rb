@@ -5,6 +5,10 @@ module Alephant
         @drivers = drivers << ::Logger.new(STDOUT)
       end
 
+      def write(*args)
+        self.<< *args
+      end
+
       def method_missing(name, *args)
         drivers.each do |driver|
           driver.send(name, *args) if driver.respond_to? name
