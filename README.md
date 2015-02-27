@@ -25,6 +25,10 @@ Or install it yourself as:
 $ gem install alephant-logger
 ```
 
+In addition to this, you may want to install one of the supported Alephant logger drivers:
+* [alephant-logger-statsd](https://github.com/BBC-News/alephant-logger-statsd)
+* [alephant-logger-cloudwatch](https://github.com/BBC-News/alephant-logger-cloudwatch)
+
 ## Usage
 
 ```rb
@@ -41,7 +45,7 @@ config = {
 statsd_driver     = Alephant::Logger::Statsd.new config
 cloudwatch_driver = Alephant::Logger::CloudWatch.new "my_namespace"
 
-logger = Alephant::Logger.create([statsd_driver, cloudwatch_driver])
+logger = Alephant::Logger.setup([statsd_driver, cloudwatch_driver])
 logger.increment "foo.bar"
 logger.metric(:name => "FooBar", :unit => "Count", :value => 1)
 ```
