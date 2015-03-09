@@ -50,12 +50,6 @@ logger.increment "foo.bar"
 logger.metric(:name => "FooBar", :unit => "Count", :value => 1)
 ```
 
-## Drivers
-
-You can consume an array of other gems to allow Alephant Logger to send custom metrics:
-
-1. [Statsd](https://github.com/BBC-News/alephant-logger-statsd#alephantloggerstatsd)
-
 ## Contributing
 
 1. [Fork it!](http://github.com/BBC-News/alephant-logger/fork)
