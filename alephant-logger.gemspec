@@ -6,8 +6,8 @@ require 'alephant/logger/version'
 Gem::Specification.new do |spec|
   spec.name          = "alephant-logger"
   spec.version       = Alephant::Logger::VERSION
-  spec.authors       = ["Robert Kenny"]
-  spec.email         = ["kenoir@gmail.com"]
+  spec.authors       = ["BBC News"]
+  spec.email         = ["FutureMediaNewsRubyGems@bbc.co.uk"]
   spec.summary       = %q{Logger functionality for Alephant}
   spec.homepage      = ""
   spec.license       = "MIT"
