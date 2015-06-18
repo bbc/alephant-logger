@@ -2,7 +2,7 @@ module Alephant
   module Logger
     class Base
       def initialize(drivers)
-        @drivers = drivers << ::Logger.new(STDOUT)
+        @drivers = drivers << Alephant::Logger::JSON.new "app.log"
       end
 
       def write(*args)
