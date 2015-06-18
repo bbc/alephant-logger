@@ -1,8 +1,14 @@
+require "alephant/logger/json"
+
 module Alephant
   module Logger
     class Base
       def initialize(drivers)
-        @drivers = drivers << ::Logger.new(STDOUT)
+        @drivers = drivers
+
+        unless drivers.any? { |driver| driver.is_a? Alephant::Logger::JSON }
+          drivers << Alephant::Logger::JSON.new("app.log")
+        end
       end
 
       def write(*args)
