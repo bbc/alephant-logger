@@ -1,14 +1,24 @@
 require "spec_helper"
 
+require "pry"
 describe Alephant::Logger::Base do
+  context "no Alephant::Logger::JSON driver given" do
+    it "defaults to include Alephant::Logger::JSON" do
+      allow(Alephant::Logger::JSON).to receive(:new) { @called = true }
+
+      described_class.new []
+      expect(@called).to be_truthy
+    end
+  end
+
   describe "#info" do
     context "no logger drivers given" do
       subject { Alephant::Logger::Base.new [] }
 
       specify do
-        expect_any_instance_of(::Logger).to receive(:info).with "msg"
+        expect_any_instance_of(Alephant::Logger::JSON).to receive(:info).with("event" => "Evented")
 
-        subject.info "msg"
+        subject.info("event" => "Evented")
       end
     end
 
@@ -23,10 +33,10 @@ describe Alephant::Logger::Base do
         subject.metric("foo")
       end
 
-      it "::Logger is always used" do
-        expect_any_instance_of(::Logger).to receive(:info).with "foo"
+      it "Alephant::Logger::JSON is always used" do
+        expect_any_instance_of(Alephant::Logger::JSON).to receive(:info).with("event" => "Evented")
 
-        subject.info "foo"
+        subject.info("event" => "Evented")
       end
     end
   end
