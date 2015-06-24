@@ -5,6 +5,8 @@ require "logger"
 module Alephant
   module Logger
     def logger
+      Alephant::Logger.setup unless defined? @@logger
+
       @@logger
     end
 
