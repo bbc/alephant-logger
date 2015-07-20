@@ -11,6 +11,8 @@ module Alephant
     end
 
     def self.get_logger
+      Alephant::Logger.setup unless defined? @@logger
+
       @@logger
     end
 
