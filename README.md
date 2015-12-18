@@ -50,7 +50,7 @@ logger.increment "foo.bar"
 logger.metric(:name => "FooBar", :unit => "Count", :value => 1)
 ```
 
-> Note: `Alephant::Logger.setup` is mandatory
+> Note: `Alephant::Logger.setup` is mandatory  
 > Arguments are optional though
 
 ## Contributing
