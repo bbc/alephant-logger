@@ -14,6 +14,10 @@ module Alephant
       @@logger
     end
 
+    def self.get_logger
+      @@logger
+    end
+
     def self.setup(*drivers)
       @@logger = Alephant::LoggerFactory.create(drivers.flatten)
     end
